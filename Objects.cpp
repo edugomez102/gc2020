@@ -72,7 +72,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
         case COCHE_ID: { // Creación del coche
 
                            tx = -2.0;
-                           ty =  0.0;
+                           ty =  0.3;
                            tz =  0.0;
                            rr =  0.0;
 
@@ -163,7 +163,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // RUEDA Delantera Izquierda : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
 
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx+0.95, ty+0.45, tz));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx + 0.95, ty + 0.1, tz + 0.6));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,0,1));   // en radianes
 
@@ -176,7 +176,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                // RUEDA Trasera Derecha : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx-0.95, ty+0.45, tz));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx - 1.1 , ty + 0.1 , tz + 0.6));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));
 
                                modelViewMatrix = escena.viewMatrix * modelMatrix;
@@ -189,7 +189,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // RUEDA Delantera Izquierda : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
 
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx+0.95, ty+0.45, tz-4.24));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx + 0.95, ty + 0.1, tz - 3.2));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,0,1));   // en radianes
 
@@ -202,7 +202,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                // RUEDA Trasera Derecha : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx-0.95, ty+0.45, tz-4.24));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx  -0.95, ty + 0.1, tz - 3.2));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));
 
                                modelViewMatrix = escena.viewMatrix * modelMatrix;
