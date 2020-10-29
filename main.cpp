@@ -171,7 +171,13 @@ int main(int argc, char* argv[])
     TPrimitiva *car1 = new TPrimitiva(1, COCHE_ID);
     TPrimitiva *car2 = new TPrimitiva(2, COCHE_ID);
     
+    TPrimitiva *farola1 = new TPrimitiva(1, FAROLA_ID);
+    TPrimitiva *semaforo1 = new TPrimitiva(1, SEMAFORO_ID);
+    TPrimitiva *casa1 = new TPrimitiva(1, CASA_ID);
+    TPrimitiva *banco1 = new TPrimitiva(1, BANCO_ID);
     TPrimitiva *cono1 = new TPrimitiva(1, CONO_ID);
+    TPrimitiva *arbol1 = new TPrimitiva(1, ARBOL_ID);
+    TPrimitiva *basura1 = new TPrimitiva(1, BASURA_ID);
 
     car2->colores[0][0] = 0.3;
     car2->colores[0][1] = 0.8;
@@ -184,7 +190,13 @@ int main(int argc, char* argv[])
     escena.AddCar(car1);
     escena.AddCar(car2);
 
+    escena.AddObject(farola1);
+    escena.AddObject(semaforo1);
+    escena.AddObject(casa1);
+    escena.AddObject(banco1);
     escena.AddObject(cono1);
+    escena.AddObject(arbol1);
+    escena.AddObject(basura1);
 
     /**** Regular GLUT main loop ****/
     glutMainLoop();

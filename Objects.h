@@ -32,8 +32,15 @@
 
 #define COCHE_ID        100 // Un coche cada 100
 // meter otro id
-#define CONO_ID  12121212
-
+#define FAROLA_ID  15
+#define SEMAFORO_ID 25
+#define CASA_ID 35
+#define BANCO_ID 55
+#define CONO_ID 65
+#define ARBOL_ID 75
+#define BASURA_ID 85
+// #define CONO_ID 95
+// #define CONO_ID 105
 
 // IDs para los callbacks de TGui
 #define LIGHT0_ENABLED_ID    200

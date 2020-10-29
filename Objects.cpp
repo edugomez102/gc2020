@@ -64,8 +64,8 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
                                //************************ Cargar modelos 3ds ***********************************
                                // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                               modelo0 = Load3DS("../../Modelos/Road.3ds", &num_vertices0);
-                               modelo1 = Load3DS("../../Modelos/Lines.3ds", &num_vertices1);
+                               modelo0 = Load3DS("../../modelos_edu/suelo.3ds", &num_vertices0);
+                               // modelo1 = Load3DS("../../Modelos/Lines.3ds", &num_vertices1);
 
                                break;
                            }
@@ -84,18 +84,72 @@ TPrimitiva::TPrimitiva(int DL, int t)
                            modelo1 = Load3DS("../../modelos_edu/rueda.3ds", &num_vertices1);
                            break;
                        }
-        case CONO_ID:{
+        case FAROLA_ID:{
                          tx = ty = tz = 5;
 
                          memcpy(colores, coloresr_c, 8*sizeof(float));
 
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                         modelo0 = Load3DS("../../modelos_edu/cono.3ds", &num_vertices0);
+                         modelo0 = Load3DS("../../modelos_edu/farola.3ds", &num_vertices0);
                          // modelo1 = Load3DS("../../modelos_edu/cono.3ds", &num_vertices1);
 
                          break;
+                       }
+        case SEMAFORO_ID:{
+                           tx = ty = tz = 5;
+
+                           memcpy(colores, coloresr_c, 8*sizeof(float));
+                           //************************ Cargar modelos 3ds ***********************************
+                           // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                           modelo0 = Load3DS("../../modelos_edu/semaforos.3ds", &num_vertices0);
+                           break;
+                         }
+        case CASA_ID:{
+                       tx = ty = tz = 5;
+
+                       memcpy(colores, coloresr_c, 8*sizeof(float));
+                       //************************ Cargar modelos 3ds ***********************************
+                       // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                       modelo0 = Load3DS("../../modelos_edu/casa.3ds", &num_vertices0);
+                       break;
                      }
+        case BANCO_ID:{
+                        tx = ty = tz = 5;
+
+                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        //************************ Cargar modelos 3ds ***********************************
+                        // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                        modelo0 = Load3DS("../../modelos_edu/banco.3ds", &num_vertices0);
+                        break;
+                      }
+        case CONO_ID:{
+                       tx = ty = tz = 5;
+
+                       memcpy(colores, coloresr_c, 8*sizeof(float));
+                       //************************ Cargar modelos 3ds ***********************************
+                       // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                       modelo0 = Load3DS("../../modelos_edu/cono.3ds", &num_vertices0);
+                       break;
+                     }
+        case ARBOL_ID:{
+                        tx = ty = tz = 5;
+
+                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        //************************ Cargar modelos 3ds ***********************************
+                        // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                        modelo0 = Load3DS("../../modelos_edu/arbol.3ds", &num_vertices0);
+                        break;
+                      }
+        case BASURA_ID:{
+                         tx = ty = tz = 5;
+
+                         memcpy(colores, coloresr_c, 8*sizeof(float));
+                         //************************ Cargar modelos 3ds ***********************************
+                         // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                         modelo0 = Load3DS("../../modelos_edu/basura.3ds", &num_vertices0);
+                         break;
+                       }
     } // switch
 }
 
@@ -214,7 +268,14 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                break;
                            }
                        }
-    case CONO_ID: {
+    case FAROLA_ID:
+    case SEMAFORO_ID:
+    case CASA_ID:
+    case BANCO_ID:
+    case CONO_ID:
+    case ARBOL_ID:
+    case BASURA_ID:
+                       {
                       if (escena.show_road) {
                           // Cálculo de la ModelView
                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
