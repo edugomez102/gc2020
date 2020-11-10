@@ -232,6 +232,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
                                modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx - 1.1 , ty + 0.1 , tz + 0.6));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));
+                               //TODO(10/11/2020): girar bien las ruedas o mirar la iluminacion
+                               // modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,1,0));   // en radianes
 
                                modelViewMatrix = escena.viewMatrix * modelMatrix;
 
@@ -269,14 +271,116 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            }
                        }
     case FAROLA_ID:
+                       {
+                         if (escena.show_farola) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case SEMAFORO_ID:
+                       {
+                         if (escena.show_semaforo) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case CASA_ID:
+                       {
+                         if (escena.show_casa) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case BANCO_ID:
+                       {
+                         if (escena.show_banco) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case CONO_ID:
+                       {
+                         if (escena.show_cono) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case ARBOL_ID:
+                       {
+                         if (escena.show_arbol) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     case BASURA_ID:
                        {
-                      if (escena.show_road) {
+                      if (escena.show_basura) {
                           // Cálculo de la ModelView
                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
                           modelViewMatrix = escena.viewMatrix * modelMatrix;
@@ -288,9 +392,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                           //                   Asociamos los vértices y sus normales
                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
-
                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
-
                       }
                       break;
                   }
@@ -309,6 +411,14 @@ TEscena::TEscena() {
     show_car = 1;
     show_wheels = 1;
     show_road = 1;
+
+    show_farola = 1;
+    show_semaforo = 1;
+    show_casa = 1;
+    show_banco = 1;
+    show_cono = 1;
+    show_arbol = 1;
+    show_basura = 1;
 
     // live variables usadas por GLUI en TGui
     wireframe = 0;
@@ -601,6 +711,13 @@ void __fastcall TGui::Init(int main_window) {
     new GLUI_Checkbox( options, "Dibujar Ruedas", &escena.show_wheels );
     new GLUI_Checkbox( options, "Dibujar Carretera", &escena.show_road );
 
+    new GLUI_Checkbox( options, "Dibujar Farola", &escena.show_farola );
+    new GLUI_Checkbox( options, "Dibujar Semadoro", &escena.show_semaforo );
+    new GLUI_Checkbox( options, "Dibujar Casa", &escena.show_casa );
+    new GLUI_Checkbox( options, "Dibujar Banco", &escena.show_banco );
+    new GLUI_Checkbox( options, "Dibujar Cono", &escena.show_cono );
+    new GLUI_Checkbox( options, "Dibujar Arbol", &escena.show_arbol );
+    new GLUI_Checkbox( options, "Dibujar Basura", &escena.show_basura );
 
     /*** Disable/Enable botones ***/
     // Añade una separación
@@ -651,7 +768,7 @@ void __fastcall TGui::Init(int main_window) {
     GLUI_Translation *trans_y = new GLUI_Translation( glui2, "Traslacion Escena Y", GLUI_TRANSLATION_Y, &escena.view_position[1] );
     trans_y->set_speed( .005 );
     new GLUI_Column( glui2, false );
-    GLUI_Translation *trans_z = new GLUI_Translation( glui2, "Traslacion Escena Z", GLUI_TRANSLATION_Z, &escena.scale );
+    GLUI_Translation *trans_z = new GLUI_Translation( glui2, "Traslacion Escena Z", GLUI_TRANSLATION_Z, &escena.view_position[2] );
     trans_z->set_speed( .005 );
 
 }
