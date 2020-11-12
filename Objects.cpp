@@ -65,7 +65,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
                                //************************ Cargar modelos 3ds ***********************************
                                // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
                                modelo0 = Load3DS("../../modelos_edu/suelo.3ds", &num_vertices0);
-                               // modelo1 = Load3DS("../../Modelos/Lines.3ds", &num_vertices1);
+                               modelo1 = Load3DS("../../modelos_edu/lineas.3ds", &num_vertices1);
 
                                break;
                            }
