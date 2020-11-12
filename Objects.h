@@ -40,6 +40,7 @@
 #define ARBOL_ID 75
 #define BASURA_ID 85
 #define SENAL_ID 105
+#define FUENTE_ID 115
 
 // IDs para los callbacks de TGui
 #define LIGHT0_ENABLED_ID    200
@@ -160,6 +161,7 @@ public: // Atributos de la clase
         int     show_arbol;
         int     show_basura;
         int     show_senal;
+        int     show_fuente;
 
         GLfloat view_position[3];
         GLfloat view_rotate[16];

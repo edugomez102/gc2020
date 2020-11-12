@@ -158,6 +158,15 @@ TPrimitiva::TPrimitiva(int DL, int t)
                          modelo0 = Load3DS("../../modelos_edu/senal.3ds", &num_vertices0);
                          break;
                        }
+        case FUENTE_ID:{
+                        tx = ty = tz = 5;
+
+                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        //************************ Cargar modelos 3ds ***********************************
+                        // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                        modelo0 = Load3DS("../../modelos_edu/fuente.3ds", &num_vertices0);
+                        break;
+                      }
     } // switch
 }
 
@@ -275,8 +284,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 
                                glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
-                               break;
                            }
+                           break;
                        }
     case FAROLA_ID:
                        {
@@ -333,6 +342,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                          }
                          break;
                        }
+    case FUENTE_ID:
     case BANCO_ID:
                        {
                          if (escena.show_banco) {
@@ -429,6 +439,7 @@ TEscena::TEscena() {
     show_arbol = 1;
     show_basura = 1;
     show_senal = 1;
+    show_fuente = 1;
 
     // live variables usadas por GLUI en TGui
     wireframe = 0;
