@@ -92,7 +92,6 @@ TPrimitiva::TPrimitiva(int DL, int t)
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
                          modelo0 = Load3DS("../../modelos_edu/farola.3ds", &num_vertices0);
-                         // modelo1 = Load3DS("../../modelos_edu/cono.3ds", &num_vertices1);
 
                          break;
                        }
@@ -148,6 +147,15 @@ TPrimitiva::TPrimitiva(int DL, int t)
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
                          modelo0 = Load3DS("../../modelos_edu/basura.3ds", &num_vertices0);
+                         break;
+                       }
+        case SENAL_ID:{
+                         tx = ty = tz = 5;
+
+                         memcpy(colores, coloresr_c, 8*sizeof(float));
+                         //************************ Cargar modelos 3ds ***********************************
+                         // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
+                         modelo0 = Load3DS("../../modelos_edu/senal.3ds", &num_vertices0);
                          break;
                        }
     } // switch
@@ -396,6 +404,24 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                       }
                       break;
                   }
+    case SENAL_ID:
+                       {
+                         if (escena.show_senal) {
+                           // Cálculo de la ModelView
+                           modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                           modelViewMatrix = escena.viewMatrix * modelMatrix;
+                           // Envía nuestra ModelView al Vertex Shader
+                           glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                           // Pintar la carretera
+                           glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                           //                   Asociamos los vértices y sus normales
+                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+                         }
+                         break;
+                       }
     } // switch
 
 }
@@ -419,6 +445,7 @@ TEscena::TEscena() {
     show_cono = 1;
     show_arbol = 1;
     show_basura = 1;
+    show_senal = 1;
 
     // live variables usadas por GLUI en TGui
     wireframe = 0;
@@ -718,6 +745,8 @@ void __fastcall TGui::Init(int main_window) {
     new GLUI_Checkbox( options, "Dibujar Cono", &escena.show_cono );
     new GLUI_Checkbox( options, "Dibujar Arbol", &escena.show_arbol );
     new GLUI_Checkbox( options, "Dibujar Basura", &escena.show_basura );
+    // al poner un checkbox max algo falla
+    // new GLUI_Checkbox( options, "Dibujar Senales", &escena.show_senal);
 
     /*** Disable/Enable botones ***/
     // Añade una separación
