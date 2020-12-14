@@ -68,6 +68,7 @@
 // Nombre de los attributes
 #define A_POSITION  "a_Position"
 #define A_NORMAL    "a_Normal"
+#define A_UV "a_UV"
 
 // Nombre de los uniforms
 #define U_PROJECTIONMATRIX      "u_ProjectionMatrix"
@@ -75,6 +76,7 @@
 #define U_VMATRIX               "u_VMatrix"
 #define U_COLOR                 "u_Color"
 #define U_LUZ0                  "u_Luz0"
+#define U_TEXTURE_UNIT "u_TextureUnit"
 
 //************************************************************** Clase TPrimtiva
 
@@ -109,17 +111,21 @@ public: // Atributos de la clase
         int     num_objects;    // Número de objetos (excepto coches)
         int     num_cars;       // Número de coches
 
+		GLuint texturas[10];
+
         TPrimitiva  *cars[10];
         TPrimitiva  *objects[100];
 
         // Handles de los attributes y uniforms
         int aPositionLocation;
         int aNormalLocation;
+		int aUVLocation;
         int uProjectionMatrixLocation;
         int uMVMatrixLocation;
         int uVMatrixLocation;
         int uColorLocation;
         int uLuz0Location;
+		int uTextureUnitLocation;
 
         glm::mat4 projectionMatrix; // Almacena la matriz de proyección
         glm::mat4 viewMatrix;       // Almacena la matriz de la vista (cámara)
@@ -172,6 +178,7 @@ public: // Métodos
 
         void __fastcall InitGL();
         void __fastcall Render();
+		void __fastcall CargarTextura();
         void __fastcall RenderCars(bool reflejo=false);
         void __fastcall RenderObjects(bool reflejo=false);
 

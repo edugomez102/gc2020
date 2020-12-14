@@ -17,6 +17,8 @@
 #include <GL/glui.h>
 
 #include "load3ds.c"
+#include "loadjpeg.c"
+// #include "loadpng.c"
 
 // Variable para inicializar los vectores correpondientes con los valores iniciales
 GLfloat light0_ambient_c[4]  = {   0.2f,   0.2f,  0.2f, 1.0f };
@@ -170,6 +172,20 @@ TPrimitiva::TPrimitiva(int DL, int t)
     } // switch
 }
 
+void __fastcall TEscena::CargarTextura(){
+	unsigned char *pixeles;
+	int ancho, alto;
+
+	glGenTextures(1, texturas);
+
+	pixeles = LoadJPEG("../../modelos_edu/paleta.jpg",&ancho, &alto);
+	glBindTexture(GL_TEXTURE_2D, texturas[0]); // selecciona esta textura
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixeles);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	free(pixeles);
+}
+
 void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 {
     glm::mat4   modelMatrix;
@@ -190,6 +206,9 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                    glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                                    glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
 
+								   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+
                                    glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
 
                                    // Pintar las líneas
@@ -197,6 +216,10 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                    //                   Asociamos los vértices y sus normales
                                    glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1);
                                    glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1+3);
+
+								   //acticar text
+								   glActiveTexture(GL_TEXTURE_2D);
+								   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
 
                                    glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
 
@@ -211,6 +234,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
 
+							   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
                                // Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
                                modelMatrix     = glm::translate(modelMatrix,glm::vec3(tx, ty, tz));
@@ -219,6 +244,10 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                // Envía nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+							   //acticar text
+							   glActiveTexture(GL_TEXTURE_2D);
+							   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
 
                                glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                            }
@@ -230,6 +259,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Asociamos los vértices y sus normales
                                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1);
                                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1+3);
+
+							   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
 
                                // RUEDA Delantera Izquierda : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -283,6 +314,10 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Envia nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 
+							   //acticar text
+							   glActiveTexture(GL_TEXTURE_2D);
+							   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                                glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
                            }
                            break;
@@ -301,6 +336,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -320,6 +362,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -338,6 +387,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -357,6 +413,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -375,6 +438,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -393,6 +463,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            //                   Asociamos los vértices y sus normales
                            glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                            glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						   //acticar text
+						   glActiveTexture(GL_TEXTURE_2D);
+						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
                          break;
@@ -411,6 +488,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                           //                   Asociamos los vértices y sus normales
                           glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                           glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+						  glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+
+						  //acticar text
+						  glActiveTexture(GL_TEXTURE_2D);
+						  glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
                           glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                       }
                       break;
@@ -511,11 +595,15 @@ void __fastcall TEscena::InitGL()
     aPositionLocation=shaderProgram->attrib(A_POSITION);
     aNormalLocation=shaderProgram->attrib(A_NORMAL);
 
+	aUVLocation=shaderProgram->attrib(A_UV);
+
     uProjectionMatrixLocation=shaderProgram->uniform(U_PROJECTIONMATRIX);
     uMVMatrixLocation=shaderProgram->uniform(U_MVMATRIX);
     uVMatrixLocation=shaderProgram->uniform(U_VMATRIX);
     uColorLocation=shaderProgram->uniform(U_COLOR);
     uLuz0Location=shaderProgram->uniform(U_LUZ0);
+
+	uTextureUnitLocation = shaderProgram->uniform(U_TEXTURE_UNIT);
 
     /*
        std::cout << "a_Position Location: " << aPositionLocation << std::endl;
@@ -532,11 +620,16 @@ void __fastcall TEscena::InitGL()
     glEnableVertexAttribArray(aPositionLocation);
     glEnableVertexAttribArray(aNormalLocation);
 
+	glEnableVertexAttribArray(aUVLocation);
+
     // Estableciendo la matriz de proyección perspectiva
     GLUI_Master.get_viewport_area( &tx, &ty, &tw, &th );
     xy_aspect = (float)tw / (float)th;
     projectionMatrix = glm::perspective(45.0f, xy_aspect, 0.1f, 1000.0f);
     glUniformMatrix4fv(uProjectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+	glUniform1f(uTextureUnitLocation, 0);
+	CargarTextura();
 }
 
 
@@ -659,7 +752,7 @@ void __fastcall TGui::Init(int main_window) {
     glui = GLUI_Master.create_glui_subwindow( window_id, GLUI_SUBWINDOW_RIGHT );
 
     // Añade una separación
-    new GLUI_StaticText( glui, "" );
+    // initnew GLUI_StaticText( glui, "" );
 
     // Añade un panel con texto con el valor de la selección
     GLUI_Panel *panel0 = new GLUI_Panel(glui, "Seleccion");
