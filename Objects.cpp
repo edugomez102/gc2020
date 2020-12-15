@@ -68,8 +68,10 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
                                //************************ Cargar modelos 3ds ***********************************
                                // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                               modelo0 = Load3DS("../../modelos_edu/suelo.3ds", &num_vertices0);
-                               modelo1 = Load3DS("../../modelos_edu/lineas.3ds", &num_vertices1);
+                               // modelo0 = Load3DS("../../modelos_edu/suelo.3ds", &num_vertices0);
+							   modelo0 = Load3DS("../../modelos_edu/carretera_p2.3ds", &num_vertices0);
+                               // modelo1 = Load3DS("../../modelos_edu/lineas.3ds", &num_vertices1);
+							   modelo1 = Load3DS("../../modelos_edu/lineas_p2.3ds", &num_vertices1);
 
                                break;
                            }
@@ -84,7 +86,8 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
                            //************************ Cargar modelos 3ds ***********************************
                            // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                           modelo0 = Load3DS("../../modelos_edu/coche1.3ds", &num_vertices0);
+                           // modelo0 = Load3DS("../../modelos_edu/coche1.3ds", &num_vertices0);
+						   modelo0 = Load3DS("../../modelos_edu/coche_p2.3ds", &num_vertices0);
                            modelo1 = Load3DS("../../modelos_edu/rueda.3ds", &num_vertices1);
                            break;
                        }
@@ -164,7 +167,8 @@ TPrimitiva::TPrimitiva(int DL, int t)
                          memcpy(colores, coloresb_c, 8*sizeof(float));
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                         modelo0 = Load3DS("../../modelos_edu/senal.3ds", &num_vertices0);
+                         // modelo0 = Load3DS("../../modelos_edu/senal.3ds", &num_vertices0);
+						 modelo0 = Load3DS("../../modelos_edu/senal_p2.3ds", &num_vertices0);
                          break;
                        }
         case FUENTE_ID:{
@@ -188,7 +192,6 @@ void __fastcall TEscena::CargarTextura(){
 
 	pixeles = LoadJPEG("../../paletilla.jpg",&ancho, &alto);
 	// pixeles = LoadJPEG("../../blanco.jpg",&ancho, &alto);
-	std::cout << "tectura:" << escena.texturas[0] << std::endl;
 	glBindTexture(GL_TEXTURE_2D, texturas[0]); // selecciona esta textura
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixeles);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -284,7 +287,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Envia nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 
-                               glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
+                               // glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
 
                                // RUEDA Trasera Derecha : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -298,7 +301,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Envia nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 
-                               glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
+                               // glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
 
                                // RUEDA Delantera Izquierda : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -312,7 +315,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Envia nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 
-                               glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
+                               // glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
 
                                // RUEDA Trasera Derecha : Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -328,7 +331,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 							   glActiveTexture(GL_TEXTURE_2D);
 							   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
 
-                               glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
+                               // glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
                            }
                            break;
                        }

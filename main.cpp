@@ -190,9 +190,9 @@ int main(int argc, char* argv[])
 
 
     escena.AddObject(road);
-    // escena.AddCar(car1);
-    // escena.AddCar(car2);
-    //
+    escena.AddCar(car1);
+    escena.AddCar(car2);
+
     escena.AddObject(farola1);
     escena.AddObject(semaforo1);
     escena.AddObject(casa1);
