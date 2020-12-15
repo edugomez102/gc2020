@@ -188,29 +188,11 @@ int main(int argc, char* argv[])
     car2->tx = 2;
     car2->tz = 3;
 
-    farola1->colores[0][0] = 0.1;
-    farola1->colores[0][1] = 0.3;
-    semaforo1->colores[0][0] = 0.4;
-    semaforo1->colores[0][2] = 0.6;
-    casa1->colores[0][0] = 0.3;
-    casa1->colores[0][2] = 0.9;
-    banco1->colores[0][0] = 0.4;
-    banco1->colores[0][1] = 0.8;
-    cono1->colores[0][0] = 0.3;
-    cono1->colores[0][1] = 0.8;
-    cono1->colores[0][2] = 0.4;
-    cono1->colores[0][3] = 1.0;
-    arbol1->colores[0][0] = 0.3;
-    arbol1->colores[0][1] = 0.5;
-    basura1->colores[0][0] = 0.3;
-    basura1->colores[0][1] = 0.4;
-
-
 
     escena.AddObject(road);
-    escena.AddCar(car1);
-    escena.AddCar(car2);
-
+    // escena.AddCar(car1);
+    // escena.AddCar(car2);
+    //
     escena.AddObject(farola1);
     escena.AddObject(semaforo1);
     escena.AddObject(casa1);
@@ -220,6 +202,8 @@ int main(int argc, char* argv[])
     escena.AddObject(basura1);
     escena.AddObject(senal1);
     escena.AddObject(fuente1);
+
+	std::cout << "\033[1;34mEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\033[0m" << std::endl;
 
     /**** Regular GLUT main loop ****/
     glutMainLoop();

@@ -1,7 +1,7 @@
 
 attribute vec4 a_Position;	        // in: Posición de cada vértice
 attribute vec3 a_Normal;	        // in: Normal de cada vértice
-attribute vec3 a_Uv;
+attribute vec2 a_Uv;
 
 uniform mat4 u_ProjectionMatrix; 	// in: Matriz Projection
 uniform mat4 u_MVMatrix;	        // in: Matriz ModelView
@@ -10,7 +10,7 @@ uniform vec4 u_Color;		        // in: Color del objeto
 uniform int  u_Luz0;                // in: Indica si la luz 0 está encedida
 
 varying vec4 v_Color;		        // out: Color al fragment shader
-varying vec4 v_Uv;
+varying vec2 v_Uv;
 
 void main()
 {

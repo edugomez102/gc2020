@@ -43,6 +43,8 @@ float view_position_c[3] = { 0.0, -2.0, -9.0 };
 float coloresc_c[2][4] = { {0.8, 0.5, 0.0, 1.0}, {0.5, 0.5, 0.5, 1.0}}; // Color del coche
 float coloresr_c[2][4] = { {0.3, 0.3, 0.3, 1.0}, {1.0, 1.0, 1.0, 1.0}}; // Color de la carretera
 
+float coloresb_c[2][4] = { {1, 1, 1, 1}, {1.0, 1.0, 1.0, 1.0}}; // Color blanco
+
 //************************************************************** Variables de clase
 
 TEscena escena;
@@ -88,46 +90,50 @@ TPrimitiva::TPrimitiva(int DL, int t)
                        }
         case FAROLA_ID:{
                          tx = ty = tz = 5;
-
-                         memcpy(colores, coloresr_c, 8*sizeof(float));
+//
+                         memcpy(colores, coloresb_c, 8*sizeof(float));
 
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                         modelo0 = Load3DS("../../modelos_edu/farola.3ds", &num_vertices0);
+                         // modelo0 = Load3DS("../../modelos_edu/farola.3ds", &num_vertices0);
+						 modelo0 = Load3DS("../../modelos_edu/farola_p2.3ds", &num_vertices0);
 
                          break;
                        }
         case SEMAFORO_ID:{
                            tx = ty = tz = 5;
 
-                           memcpy(colores, coloresr_c, 8*sizeof(float));
+                           memcpy(colores, coloresb_c, 8*sizeof(float));
                            //************************ Cargar modelos 3ds ***********************************
                            // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                           modelo0 = Load3DS("../../modelos_edu/semaforos.3ds", &num_vertices0);
+                           // modelo0 = Load3DS("../../modelos_edu/semaforos.3ds", &num_vertices0);
+						   modelo0 = Load3DS("../../modelos_edu/semaforo_p2.3ds", &num_vertices0);
                            break;
                          }
         case CASA_ID:{
                        tx = ty = tz = 5;
 
-                       memcpy(colores, coloresr_c, 8*sizeof(float));
+                       memcpy(colores, coloresb_c, 8*sizeof(float));
                        //************************ Cargar modelos 3ds ***********************************
                        // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                       modelo0 = Load3DS("../../modelos_edu/casa.3ds", &num_vertices0);
+                       // modelo0 = Load3DS("../../modelos_edu/casa.3ds", &num_vertices0);
+					   modelo0 = Load3DS("../../modelos_edu/casa_p2.3ds", &num_vertices0);
                        break;
                      }
         case BANCO_ID:{
                         tx = ty = tz = 5;
 
-                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        memcpy(colores, coloresb_c, 8*sizeof(float));
                         //************************ Cargar modelos 3ds ***********************************
                         // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                        modelo0 = Load3DS("../../modelos_edu/banco.3ds", &num_vertices0);
+                        // modelo0 = Load3DS("../../modelos_edu/banco.3ds", &num_vertices0);
+						modelo0 = Load3DS("../../modelos_edu/banco_p2.3ds", &num_vertices0);
                         break;
                       }
         case CONO_ID:{
                        tx = ty = tz = 5;
 
-                       memcpy(colores, coloresr_c, 8*sizeof(float));
+                       memcpy(colores, coloresb_c, 8*sizeof(float));
                        //************************ Cargar modelos 3ds ***********************************
                        // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
                        modelo0 = Load3DS("../../modelos_edu/cono.3ds", &num_vertices0);
@@ -136,25 +142,26 @@ TPrimitiva::TPrimitiva(int DL, int t)
         case ARBOL_ID:{
                         tx = ty = tz = 5;
 
-                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        memcpy(colores, coloresb_c, 8*sizeof(float));
                         //************************ Cargar modelos 3ds ***********************************
                         // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                        modelo0 = Load3DS("../../modelos_edu/arbol.3ds", &num_vertices0);
+                        modelo0 = Load3DS("../../modelos_edu/arbol_p2.3ds", &num_vertices0);
                         break;
                       }
         case BASURA_ID:{
                          tx = ty = tz = 5;
 
-                         memcpy(colores, coloresr_c, 8*sizeof(float));
+                         memcpy(colores, coloresb_c, 8*sizeof(float));
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                         modelo0 = Load3DS("../../modelos_edu/basura.3ds", &num_vertices0);
+                         // modelo0 = Load3DS("../../modelos_edu/basura.3ds", &num_vertices0);
+						 modelo0 = Load3DS("../../modelos_edu/basura_p2.3ds", &num_vertices0);
                          break;
                        }
         case SENAL_ID:{
                          tx = ty = tz = 5;
 
-                         memcpy(colores, coloresr_c, 8*sizeof(float));
+                         memcpy(colores, coloresb_c, 8*sizeof(float));
                          //************************ Cargar modelos 3ds ***********************************
                          // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
                          modelo0 = Load3DS("../../modelos_edu/senal.3ds", &num_vertices0);
@@ -163,10 +170,11 @@ TPrimitiva::TPrimitiva(int DL, int t)
         case FUENTE_ID:{
                         tx = ty = tz = 5;
 
-                        memcpy(colores, coloresr_c, 8*sizeof(float));
+                        memcpy(colores, coloresb_c, 8*sizeof(float));
                         //************************ Cargar modelos 3ds ***********************************
                         // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-                        modelo0 = Load3DS("../../modelos_edu/fuente.3ds", &num_vertices0);
+                        // modelo0 = Load3DS("../../modelos_edu/fuente.3ds", &num_vertices0);
+						modelo0 = Load3DS("../../modelos_edu/fuente_p2.3ds", &num_vertices0);
                         break;
                       }
     } // switch
@@ -178,7 +186,9 @@ void __fastcall TEscena::CargarTextura(){
 
 	glGenTextures(1, texturas);
 
-	pixeles = LoadJPEG("../../modelos_edu/paleta.jpg",&ancho, &alto);
+	pixeles = LoadJPEG("../../paletilla.jpg",&ancho, &alto);
+	// pixeles = LoadJPEG("../../blanco.jpg",&ancho, &alto);
+	std::cout << "tectura:" << escena.texturas[0] << std::endl;
 	glBindTexture(GL_TEXTURE_2D, texturas[0]); // selecciona esta textura
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixeles);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -342,6 +352,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 						   //acticar text
 						   glActiveTexture(GL_TEXTURE_2D);
 						   glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+
 
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }

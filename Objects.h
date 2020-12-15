@@ -68,7 +68,7 @@
 // Nombre de los attributes
 #define A_POSITION  "a_Position"
 #define A_NORMAL    "a_Normal"
-#define A_UV "a_UV"
+#define A_UV "a_Uv"
 
 // Nombre de los uniforms
 #define U_PROJECTIONMATRIX      "u_ProjectionMatrix"
