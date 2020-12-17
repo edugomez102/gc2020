@@ -78,6 +78,10 @@
 #define U_LUZ0                  "u_Luz0"
 #define U_TEXTURE_UNIT "u_TextureUnit"
 
+#define CODE "code"
+#define A_POSITION_SELECT "a_Position_select"
+#define U_PROJECTIONMATRIX_SELECT      "u_ProjectionMatrix_select"
+
 //************************************************************** Clase TPrimtiva
 
 class TPrimitiva
@@ -91,11 +95,15 @@ public: // Atributos de la clase
         float rr;               // Rotación de las ruedas
         float colores[2][4];    // Color RGB y canal Alfa
 
+		float rry;
+
         float   *modelo0;        // modelo a representar
+		float   *modelo2;        // modelo a representar
         int     num_vertices0;   // número de vértices
 
         float   *modelo1;        // modelo a representar
         int     num_vertices1;   // número de vértices
+		int     num_vertices2;   // número de vértices
 
 public: // Métodos
         TPrimitiva(int DL, int tipo);
@@ -127,10 +135,18 @@ public: // Atributos de la clase
         int uLuz0Location;
 		int uTextureUnitLocation;
 
+		int code;
+		int uMVMatrixLocationSelect;
+		int uProjectionMatrixLocationSelect;
+		int camara;
+
+
         glm::mat4 projectionMatrix; // Almacena la matriz de proyección
         glm::mat4 viewMatrix;       // Almacena la matriz de la vista (cámara)
 
         Program  *shaderProgram;    // Almacena el programa de OpenGL (ShaderProgram)
+
+		Program  *shaderSelectProgram;    // Almacena el programa de OpenGL para el select
 
         // Vectores de luces y materiales
         GLfloat light0_ambient[4];
@@ -178,9 +194,15 @@ public: // Métodos
 
         void __fastcall InitGL();
         void __fastcall Render();
-		void __fastcall CargarTextura();
         void __fastcall RenderCars(bool reflejo=false);
         void __fastcall RenderObjects(bool reflejo=false);
+
+
+		void __fastcall CargarTextura();
+
+		void __fastcall RenderSelect();
+		void __fastcall RenderSelection();
+
 
         void __fastcall AddCar(TPrimitiva *car);
         void __fastcall AddObject(TPrimitiva *object);
