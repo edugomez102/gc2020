@@ -773,7 +773,15 @@ void __fastcall TEscena::Render()
 
     glClearColor(0.0, 0.7, 0.9, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(renderMode == 0){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else if(renderMode == 1){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else if(renderMode == 2){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	}
 
     // C?lculo de la vista (c?mara)
     if(camara==0){
@@ -1027,6 +1035,12 @@ void __fastcall TGui::Init(int main_window) {
     // al poner un checkbox max algo falla
     // new GLUI_Checkbox( options, "Dibujar Senales", &escena.show_senal);
 
+	GLUI_Panel *panel2 = new GLUI_Panel(glui, "Render");
+	GLUI_RadioGroup *radioGroup3 = new GLUI_RadioGroup(panel2, &renderMode, RENDER_ID, controlCallback);
+	glui->add_radiobutton_to_group(radioGroup3, "Normal");
+	glui->add_radiobutton_to_group(radioGroup3, "Linea");
+	glui->add_radiobutton_to_group(radioGroup3, "puntos");
+
     /*** Disable/Enable botones ***/
     // A?ade una separaci?n
     new GLUI_StaticText( glui, "" );
@@ -1142,6 +1156,10 @@ void __fastcall TGui::ControlCallback( int control )
                          glutSetWindow( glui->get_glut_window_id() );
                          break;
                      }
+		case RENDER_ID:{
+						   escena.renderMode = renderMode;
+						   break;
+					   }
     } // switch
 }
 

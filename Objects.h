@@ -55,6 +55,7 @@
 #define DISABLE_ID           301
 
 #define RESET_ID             400
+#define RENDER_ID 545
 
 #define SEL_ID               500
 
@@ -139,6 +140,7 @@ public: // Atributos de la clase
 		int uMVMatrixLocationSelect;
 		int uProjectionMatrixLocationSelect;
 		int camara;
+		int renderMode;
 
 
         glm::mat4 projectionMatrix; // Almacena la matriz de proyección
@@ -220,6 +222,7 @@ class TGui
 {
 public:
         int             window_id;
+        int renderMode;
 
         // live variables usadas por GLUI
         int             sel;
