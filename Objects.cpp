@@ -89,7 +89,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
                            // modelo0 = Load3DS("../../modelos_edu/coche1.3ds", &num_vertices0);
                            modelo0 = Load3DS((char *)"../../modelos_edu/coche_p2.3ds", &num_vertices0);
                            modelo1 = Load3DS((char *)"../../modelos_edu/rueda_p2.3ds", &num_vertices1);
-                           modelo2 = Load3DS((char *)"../../modelos_edu/ruedalow.3ds", &num_vertices2);
+                           modelo2 = Load3DS((char *)"../../modelos_edu/seleccion_p2.3ds", &num_vertices2);
                            break;
                        }
         case FAROLA_ID:{
@@ -293,6 +293,8 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // Asociamos los vértices y sus normales
                                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
                                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+                               // ddd
+                               glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
 
                                // Cálculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -303,6 +305,10 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                // Envía nuestra ModelView al Vertex Shader
                                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                               //acticar text
+                               glActiveTexture(GL_TEXTURE_2D);
+                               glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
 
                                glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                            }
@@ -705,13 +711,22 @@ void __fastcall TEscena::InitGL()
     std::cout << std::endl << "Cargando Shaders" << std::endl;
 
     Shader shader;
+    Shader shaderSelect;
 
     std::vector<GLuint> shaders;
+    std::vector<GLuint> shadersSelect;
+
     shaders.push_back(shader.LoadShader("../../Shaders/VertexShader.glsl", GL_VERTEX_SHADER));
     //std::cout << "Vertex Shader: " << shader.ReturnShaderID() << std::endl;
     shaders.push_back(shader.LoadShader("../../Shaders/FragmentShader.glsl", GL_FRAGMENT_SHADER));
     //std::cout << "Fragment Shader: " << shader.ReturnShaderID() << std::endl;
     shaderProgram = new Program(shaders);
+
+    // shadersSelect.push_back(shaderSelect.LoadShader("../../Shaders/SelectVertex.glsl", GL_VERTEX_SHADER));
+    // //std::cout << "Vertex Shader: " << shader.ReturnShaderID() << std::endl;
+    // shadersSelect.push_back(shaderSelect.LoadShader("../../Shaders/SelectFrag.glsl", GL_FRAGMENT_SHADER));
+    // //std::cout << "Fragment Shader: " << shader.ReturnShaderID() << std::endl;
+    // shaderSelectProgram = new Program(shadersSelect);
 
     //std::cout << "Shader Program: " << shaderProgram->ReturnProgramID() << std::endl;
 
@@ -832,11 +847,35 @@ void __fastcall TEscena::Render()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // Cálculo de la vista (cámara)
+    if(camara==0){
     viewMatrix      = glm::mat4(1.0f);
     rotateMatrix    = glm::make_mat4(view_rotate);
     viewMatrix      = glm::translate(viewMatrix,glm::vec3(view_position[0], view_position[1], view_position[2]));
     viewMatrix      = viewMatrix*rotateMatrix;
     viewMatrix      = glm::scale(viewMatrix,glm::vec3(scale, scale, scale));
+    }else if(camara==1){
+        TPrimitiva *car=NULL;
+        car=GetCar(escena.seleccion);
+        if(car!=NULL){
+            float distancia = 10.0;
+            glm::vec3 cameraPosition = glm::vec3(car->tx-distancia*sin(glm::radians(car->ry)), car->ty+3.5, car->tz-distancia*cos(glm::radians(car->ry)));
+            glm::vec3 cameraFocus    = glm::vec3(car->tx, car->ty, car->tz);
+            glm::vec3 orientation    = glm::vec3(0,1,0);
+            viewMatrix               = glm::lookAt(cameraPosition, cameraFocus, orientation);
+        }
+    }else{
+        TPrimitiva *car=NULL;
+        car=GetCar(escena.seleccion);
+        if(car!=NULL){
+            float distancia = 1.0;
+            glm::vec3 cameraPosition = glm::vec3(car->tx-distancia*sin(glm::radians(car->ry)), car->ty+20, car->tz-distancia*cos(glm::radians(car->ry)));
+            glm::vec3 cameraFocus    = glm::vec3(car->tx, car->ty, car->tz);
+            glm::vec3 orientation    = glm::vec3(0,1,0);
+            viewMatrix               = glm::lookAt(cameraPosition, cameraFocus, orientation);
+        }
+    }
+    // Cálculo de la vista (cámara)
+
 
     glUniform1i(uLuz0Location, gui.light0_enabled);
     glUniformMatrix4fv(uVMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix)); // Para la luz matrix view pero sin escalado!
@@ -850,48 +889,13 @@ void __fastcall TEscena::Render()
     glutSwapBuffers();
 }
 
-
-
-// Selecciona un objeto a través del ratón
-void __fastcall TEscena::Pick3D(int mouse_x, int mouse_y)
-{
-    int tx, ty, tw, th;
-    unsigned char resultado[4];
-    GLint viewport[4];
-
-    RenderSelect();
-
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glReadPixels(mouse_x, viewport[3] + viewport[1] - mouse_y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &resultado);
-    switch(resultado[0]) {
-        case 0: printf("Nada seleccionado\n"); break;
-        case 30: printf("Coche 1 seleccionado\n"); seleccion=1; gui.sel=1; break;
-        case 60: printf("Coche 2 seleccionado\n"); seleccion=2; gui.sel=2;break;
-        default:printf("Resultado: %d\n", resultado[0]);
-    }
-    glUseProgram(shaderProgram->ReturnProgramID());
-    aPositionLocation = shaderProgram->attrib(A_POSITION);
-    aNormalLocation = shaderProgram->attrib(A_NORMAL);
-    uProjectionMatrixLocation = shaderProgram->uniform(U_PROJECTIONMATRIX);
-    uMVMatrixLocation = shaderProgram->uniform(U_MVMATRIX);
-    uVMatrixLocation = shaderProgram->uniform(U_VMATRIX);
-    uColorLocation = shaderProgram->uniform(U_COLOR);
-    // uLuz0Location = shaderProgram->uniform(U_LUZ0);
-    // uLuz1Location = shaderProgram->uniform(U_LUZ1);
-
-    // glEnableVertexAttribArray(aPositionLocation);
-    // glEnableVertexAttribArray(aNormalLocation);
-    GLUI_Master.get_viewport_area( &tx, &ty, &tw, &th );
-    xy_aspect = (float)tw / (float)th;
-    projectionMatrix = glm::perspective(45.0f, xy_aspect, 0.1f, 1000.0f);
-    glUniformMatrix4fv(uProjectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-}
-
 void __fastcall TEscena::RenderSelect()
 {
     glm::mat4 rotateMatrix;
     glm::mat4 rotateX;
     glm::mat4 rotateY;
+
+    std::cout << "\033[1;34mEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\033[0m" << std::endl;
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -943,6 +947,40 @@ void __fastcall TEscena::RenderSelect()
     //glutSwapBuffers();
 }
 
+// Selecciona un objeto a través del ratón
+void __fastcall TEscena::Pick3D(int mouse_x, int mouse_y)
+{
+    int tx, ty, tw, th;
+    unsigned char resultado[4];
+    GLint viewport[4];
+
+    RenderSelect();
+
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glReadPixels(mouse_x, viewport[3] + viewport[1] - mouse_y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &resultado);
+    switch(resultado[0]) {
+        case 0: printf("Nada seleccionado\n"); break;
+        case 30: printf("Coche 1 seleccionado\n"); seleccion=1; gui.sel=1; break;
+        case 60: printf("Coche 2 seleccionado\n"); seleccion=2; gui.sel=2;break;
+        default:printf("Resultado: %d\n", resultado[0]);
+    }
+    glUseProgram(shaderProgram->ReturnProgramID());
+    aPositionLocation = shaderProgram->attrib(A_POSITION);
+    aNormalLocation = shaderProgram->attrib(A_NORMAL);
+    uProjectionMatrixLocation = shaderProgram->uniform(U_PROJECTIONMATRIX);
+    uMVMatrixLocation = shaderProgram->uniform(U_MVMATRIX);
+    uVMatrixLocation = shaderProgram->uniform(U_VMATRIX);
+    uColorLocation = shaderProgram->uniform(U_COLOR);
+    // uLuz0Location = shaderProgram->uniform(U_LUZ0);
+    // uLuz1Location = shaderProgram->uniform(U_LUZ1);
+
+    glEnableVertexAttribArray(aPositionLocation);
+    glEnableVertexAttribArray(aNormalLocation);
+    GLUI_Master.get_viewport_area( &tx, &ty, &tw, &th );
+    xy_aspect = (float)tw / (float)th;
+    projectionMatrix = glm::perspective(45.0f, xy_aspect, 0.1f, 1000.0f);
+    glUniformMatrix4fv(uProjectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+}
 
 //************************************************************** Clase TGui
 

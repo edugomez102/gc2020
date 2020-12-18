@@ -203,7 +203,6 @@ int main(int argc, char* argv[])
     escena.AddObject(senal1);
     escena.AddObject(fuente1);
 
-	std::cout << "\033[1;34mEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\033[0m" << std::endl;
 
     /**** Regular GLUT main loop ****/
     glutMainLoop();
