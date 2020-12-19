@@ -243,6 +243,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                            }
         case COCHE_ID: {
                            if (escena.show_car) {
+							   escena.rotacionPicker += 2;
                                if(ID == escena.seleccion && escena.seleccion==1){
 
                                    glUniform4fv(escena.uColorLocation, 1, (const GLfloat *) colores[0]);
@@ -251,11 +252,11 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                    glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo2 + 3);
 
                                    // ddd
-                                      glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+								  glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
 
                                    modelMatrix     = glm::mat4(1.0f); // matriz identidad
                                    modelMatrix     = glm::translate(modelMatrix,glm::vec3(tx-(sin(glm::radians(ry))) , ty + 3, tz-(cos(glm::radians(ry)))));
-                                   //modelMatrix     = glm::rotate(modelMatrix,(float) glm::radians(-90.0),glm::vec3(1,0,0));
+                                   modelMatrix     = glm::rotate(modelMatrix,(float) glm::radians(escena.rotacionPicker + 1.0),glm::vec3(0,1,0));
                                    modelViewMatrix = escena.viewMatrix * modelMatrix;
 
                                    glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
@@ -278,7 +279,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                    modelMatrix     = glm::mat4(1.0f); // matriz identidad
                                    modelMatrix     = glm::translate(modelMatrix,glm::vec3(tx, ty + 3, tz));
-                                   //modelMatrix     = glm::rotate(modelMatrix,(float) glm::radians(-90.0),glm::vec3(1,0,0));
+								   modelMatrix     = glm::rotate(modelMatrix,(float) glm::radians(escena.rotacionPicker + 1.0),glm::vec3(0,1,0));
                                    modelViewMatrix = escena.viewMatrix * modelMatrix;
 
                                    glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
@@ -572,6 +573,7 @@ TEscena::TEscena() {
 	camara = 0;
     num_objects = 0;
     num_cars = 0;
+	rotacionPicker = 0;
 
     show_car = 1;
     show_wheels = 1;

@@ -142,6 +142,7 @@ public: // Atributos de la clase
 		int uProjectionMatrixLocationSelect;
 		int camara;
 		int renderMode;
+		float rotacionPicker;
 
 
         glm::mat4 projectionMatrix; // Almacena la matriz de proyección
