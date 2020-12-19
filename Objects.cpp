@@ -43,7 +43,7 @@ float view_position_c[3] = { 0.0, -2.0, -9.0 };
 float coloresc_c[2][4] = { {0.8, 0.5, 0.0, 1.0}, {0.5, 0.5, 0.5, 1.0}}; // Color del coche
 float coloresr_c[2][4] = { {0.3, 0.3, 0.3, 1.0}, {1.0, 1.0, 1.0, 1.0}}; // Color de la carretera
 
-float coloresb_c[2][4] = { {1, 1, 1, 1}, {1.0, 1.0, 1.0, 1.0}}; // Color blanco
+float coloresb_c[2][4]  { {1, 1, 1, 1}, {1.0, 1.0, 1.0, 1.0}}; // Color blanco
 
 //************************************************************** Variables de clase
 
@@ -569,6 +569,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 TEscena::TEscena() {
 
     seleccion = 1;
+	camara = 0;
     num_objects = 0;
     num_cars = 0;
 
@@ -964,6 +965,13 @@ void __fastcall TGui::Init(int main_window) {
     glui->add_radiobutton_to_group(radioGroup, "COCHE 2");
 
 
+	//Camaras
+	GLUI_Panel *panel1 = new GLUI_Panel(glui, "Camara");
+	GLUI_RadioGroup *radioGroup2 = new GLUI_RadioGroup(panel1, &cam, CAM_ID, controlCallback);
+	glui->add_radiobutton_to_group(radioGroup2, "Libre");
+	glui->add_radiobutton_to_group(radioGroup2, "Seguimiento");
+	glui->add_radiobutton_to_group(radioGroup2, "Aerea");
+
     // A?ade una separaci?n
     new GLUI_StaticText( glui, "" );
 
@@ -1160,6 +1168,12 @@ void __fastcall TGui::ControlCallback( int control )
 						   escena.renderMode = renderMode;
 						   break;
 					   }
+		case CAM_ID: {
+						 escena.camara = cam;
+						 glutSetWindow( glui->get_glut_window_id() );
+						 break;
+
+					 }
     } // switch
 }
 

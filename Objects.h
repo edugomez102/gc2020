@@ -58,6 +58,7 @@
 #define RENDER_ID 545
 
 #define SEL_ID               500
+#define CAM_ID               600
 
 // Datos del formato 3DS (x, y, z, A, B, C, u, v)
 #define POSITION_COMPONENT_COUNT    3
@@ -226,6 +227,7 @@ public:
 
         // live variables usadas por GLUI
         int             sel;
+		int             cam;
         int             enable_panel2;
         int             light0_enabled;
         int             light1_enabled;
