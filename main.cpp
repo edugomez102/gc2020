@@ -94,18 +94,39 @@ void Keyboard(unsigned char Key, int x, int y)
 static void SpecialKey(int key, int x, int y)
 {
     TPrimitiva *car = escena.GetCar(escena.seleccion);
+    double pi=3.1415926535897932384626433832795;
+    float angulogiro=(car->ry*pi)/180.0;
+    float cosenogiro=cos(angulogiro);
+    float senogiro=sin(angulogiro);
+
 
     switch (key)
     {
         case GLUT_KEY_UP:   // El coche avanza
             car->rr+=8;
-            car->tz += 0.05;
+            car->tx += 0.05*senogiro;
+            car->tz += 0.05*cosenogiro;
+            car->ry += car->rry * 0.02;
             break;
         case GLUT_KEY_DOWN:   // El coche retrocede
             car->rr-=8;
-            car->tz -= 0.05;
+            car->tx -= 0.05*senogiro;
+            car->tz -= 0.05*cosenogiro;
+            car->ry -= car->rry * 0.02;
+            break;
+
+        case GLUT_KEY_LEFT:    //Ruedas giran izquierda
+            if(car->rry<45){
+                car->rry += 2;
+            }
+            break;
+        case GLUT_KEY_RIGHT:
+            if(car->rry>-45){
+                car->rry -= 2;
+            }
             break;
     }
+
 
     glutPostRedisplay();
 }
