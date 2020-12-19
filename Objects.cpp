@@ -83,7 +83,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
                            rr =  0.0;
                            rry = 0.0;
 
-                           memcpy(colores, coloresc_c, 8*sizeof(float));
+                           memcpy(colores, coloresb_c, 8*sizeof(float));
 
                            //************************ Cargar modelos 3ds ***********************************
                            // formato 8 floats por v?rtice (x, y, z, A, B, C, u, v)
@@ -256,13 +256,13 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 							   escena.rotacionPicker += 2;
                                if(ID == escena.seleccion && escena.seleccion==1){
 
-                                   glUniform4fv(escena.uColorLocation, 1, (const GLfloat *) colores[0]);
+                                   glUniform4fv(escena.uColorLocation, 1, (const GLfloat *) colores[1]);
                                    glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo2);
                                    glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo2);
                                    glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo2 + 3);
 
                                    // ddd
-								  glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+								  glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo2+6);
 
                                    modelMatrix     = glm::mat4(1.0f); // matriz identidad
                                    modelMatrix     = glm::translate(modelMatrix,glm::vec3(tx-(sin(glm::radians(ry))) , ty + 3, tz-(cos(glm::radians(ry)))));
@@ -284,7 +284,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                    glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo2 + 3);
 
                                    // ddd
-                                   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+                                   glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo2+6);
 
 
                                    modelMatrix     = glm::mat4(1.0f); // matriz identidad
@@ -331,12 +331,14 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1);
                                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo1+3);
 
-                               // glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo0+6);
+                               glVertexAttribPointer(escena.aUVLocation, UV_COMPONENT_COUNT , GL_FLOAT, false, STRIDE, modelo1+6);
 
                                // RUEDA Delantera Izquierda : C?lculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
 
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx + 0.95, ty + 0.1, tz + 0.6));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx, ty, tz));
+                               modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(ry), glm::vec3(0,1,0));      // en radianes
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(0.95, 0.1, 0.6));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rry), glm::vec3(0,1,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,0,1));   // en radianes
@@ -351,10 +353,12 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                //TODO(19/12/2020): giro de las ruedas coc el coche rry 
                                // RUEDA Trasera Derecha : C?lculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx - 1.1 , ty + 0.1 , tz + 0.6));
+
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx, ty, tz));
+                               modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(ry), glm::vec3(0,1,0));      // en radianes
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(-1.1, 0.1, 0.6));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rry), glm::vec3(0,1,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));
-                               // modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,1,0));   // en radianes
 
                                modelViewMatrix = escena.viewMatrix * modelMatrix;
 
@@ -366,7 +370,9 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                                // RUEDA Delantera Izquierda : C?lculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
 
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx + 0.95, ty + 0.1, tz - 3.2));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx, ty, tz));
+                               modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(ry), glm::vec3(0,1,0));      // en radianes
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(0.95, 0.1, -3.8));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));      // en radianes
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,0,1));   // en radianes
 
@@ -379,7 +385,9 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                // RUEDA Trasera Derecha : C?lculo de la matriz modelo
                                modelMatrix     = glm::mat4(1.0f); // matriz identidad
-                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx  -0.95, ty + 0.1, tz - 3.2));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx, ty, tz));
+                               modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(ry), glm::vec3(0,1,0));
+                               modelMatrix     = glm::translate(modelMatrix, glm::vec3(-0.95, 0.1, -3.8));
                                modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));
 
                                modelViewMatrix = escena.viewMatrix * modelMatrix;
