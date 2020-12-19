@@ -199,6 +199,15 @@ void __fastcall TEscena::CargarTextura(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     free(pixeles);
+
+    pixeles = LoadJPEG((char *)"../../naranja.jpg",&ancho, &alto);
+    // pixeles = LoadJPEG("../../blanco.jpg",&ancho, &alto);
+    glBindTexture(GL_TEXTURE_2D, texturas[1]); // selecciona esta textura
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, ancho, alto, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixeles);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    free(pixeles);
+
 }
 
 void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
@@ -380,7 +389,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                                //acticar text
                                glActiveTexture(GL_TEXTURE_2D);
-                               glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+                               // glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
 
                                glDrawArrays(GL_TRIANGLES, 0, num_vertices1);
                            }
@@ -508,7 +517,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 
                            //acticar text
                            glActiveTexture(GL_TEXTURE_2D);
-                           glBindTexture(GL_TEXTURE_2D, escena.texturas[0]);
+                           glBindTexture(GL_TEXTURE_2D, escena.texturas[1]);
 
                            glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
                          }
